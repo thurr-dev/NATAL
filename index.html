@@ -3,206 +3,285 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎄 Quebra-Cabeça de Natal & Vale-Presente 🎁</title>
+    <title>Adivinhe a Palavra - Especial Natal 🎄</title>
+    
     <style>
-        /* Estilos de Natal para a página */
+        /* ==================== 
+           CSS (Estilos do Jogo) 
+           ==================== */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f7f7f7;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="#f7f7f7"/><circle cx="10" cy="10" r="2" fill="#e0e0e0"/><circle cx="50" cy="50" r="3" fill="#e0e0e0"/><circle cx="90" cy="90" r="2" fill="#e0e0e0"/></svg>'); /* Fundo de flocos de neve simulado */
-            text-align: center;
+            background-color: #A32929; 
+            background-image: linear-gradient(135deg, #A32929 0%, #006000 100%);
+            margin: 0;
             padding: 20px;
-        }
-        .card {
-            background-color: #ffffff;
-            border: 5px solid #d4af37; /* Borda Dourada */
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 450px;
-            margin: 40px auto;
-            padding: 30px;
-        }
-        .header {
-            color: #c0392b; /* Vermelho Natal */
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .subheader {
-            color: #27ae60; /* Verde Natal */
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-        .code {
-            font-size: 36px;
-            color: #d4af37; /* Dourado */
-            background-color: #f0f8ff;
-            padding: 10px 20px;
-            border: 2px dashed #c0392b;
-            border-radius: 8px;
-            margin: 25px 0;
-            display: inline-block;
-            letter-spacing: 2px;
-        }
-        .value {
-            font-size: 22px;
-            color: #34495e;
-            margin-bottom: 25px;
-        }
-        .whatsapp-button {
-            display: inline-block;
-            background-color: #25d366; /* Verde WhatsApp */
-            color: white;
-            padding: 15px 30px;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 18px;
-            transition: background-color 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            border: none;
-            cursor: pointer;
-        }
-        .whatsapp-button:hover {
-            background-color: #128c7e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
-        /* Estilos do Quebra-Cabeça */
-        #puzzle-section {
-            background-color: #e6ffe6; /* Fundo mais claro para o puzzle */
-            border: 2px dashed #27ae60;
-            padding: 20px;
+        .container {
+            background-color: #fff;
+            padding: 30px 40px;
             border-radius: 10px;
-            margin-bottom: 30px;
-        }
-        .puzzle-word {
-            font-size: 40px;
-            font-weight: bold;
-            color: #c0392b;
-            letter-spacing: 5px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-        .puzzle-input {
-            padding: 10px;
-            font-size: 20px;
-            border: 2px solid #27ae60;
-            border-radius: 5px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            max-width: 600px;
             text-align: center;
-            width: 80%;
-            max-width: 250px;
+            border: 8px solid #008000; 
+        }
+
+        h1 {
+            color: #C4302B; /* Vermelho Natal */
+            margin-bottom: 15px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        .score-display {
+            color: #008000; /* Verde Natal */
+            font-size: 1.2em;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        #fase-titulo {
+            color: #C4302B;
+            margin-bottom: 10px;
+        }
+        
+        .dica {
+            font-style: italic;
+            color: #555;
             margin-bottom: 15px;
         }
-        .puzzle-button {
-            background-color: #2980b9; /* Azul */
+
+        .code-box {
+            background-color: #fcebeb; /* Fundo levemente vermelho */
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #C4302B;
+        }
+        
+        /* O CÓDIGO DISPLAY AGORA MOSTRA O ANAGRAMA EMBARALHADO */
+        #codigo-display { 
+            font-size: 2.2em;
+            font-weight: bold;
+            letter-spacing: 5px;
+            color: #C4302B; /* Cor Vermelha para o anagrama */
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        #palpite-input {
+            flex-grow: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1.1em;
+        }
+
+        button {
+            background-color: #008000;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border: none;
             border-radius: 5px;
-            font-size: 18px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .puzzle-button:hover {
-            background-color: #2c3e50;
-        }
-        .puzzle-feedback {
-            margin-top: 15px;
             font-weight: bold;
-            color: #e74c3c; /* Vermelho para erro */
+            transition: background-color 0.3s;
+            text-transform: uppercase;
         }
-        #vale-section {
-            display: none; /* Esconde o vale até o puzzle ser resolvido */
+
+        button:hover {
+            background-color: #005f00;
+        }
+
+        .feedback-message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .correct {
+            color: white;
+            background-color: #008000;
+        }
+
+        .incorrect {
+            color: white;
+            background-color: #C4302B;
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="header">🎉 Antes da Surpresa...</div>
-        <div class="subheader">Resolva o Quebra-Cabeça de Natal!</div>
+    <div class="container">
+        <h1>🎄 Adivinhe a Palavra de Natal 🎅</h1>
+        <p class="score-display">Pontuação: <span id="pontuacao">0</span> | Tentativas na Fase: <span id="tentativas">5</span></p>
 
-        <div id="puzzle-section">
-            <p style="font-size: 18px; color: #34495e;">
-                Desembaralhe as letras para descobrir uma palavra mágica do Natal:
-            </p>
-            <div class="puzzle-word" id="scrambled-word"></div>
-            <input type="text" id="puzzle-guess" class="puzzle-input" placeholder="Sua resposta aqui">
-            <button class="puzzle-button" onclick="checkPuzzle()">Verificar</button>
-            <p class="puzzle-feedback" id="puzzle-feedback"></p>
-        </div>
-
-        <div id="vale-section">
-            <h1 style="color: #c0392b; font-size: 32px; margin-top: 5px;">Árvore de Natal!</h1>
+        <div class="game-area">
+            <h2 id="fase-titulo">Fase 1</h2>
             
-            <div class="value">
-                Valor do Vale: **R$ 150,00**
+            <p class="dica" id="dica-palavra"></p>
+            
+            <div class="code-box">
+                <p>Letras Embaralhadas:</p>
+                <div id="codigo-display"></div> 
+            </div>
+            
+            <div class="input-area">
+                <input type="text" id="palpite-input" placeholder="Seu palpite aqui...">
+                <button onclick="verificarPalpite()">ADIVINHAR</button>
             </div>
 
-            <p style="color: #34495e;">Seu código exclusivo para resgate:</p>
-            <div class="code">
-                ARVORELUZ150
-            </div>
-
-            <p style="margin-top: 30px; color: #34495e; font-weight: bold;">
-                Clique no botão abaixo para usar o seu vale agora mesmo!
-            </p>
-            
-            <a href="https://wa.me/5531997371625?text=Ol%C3%A1%21%20Quero%20usar%20meu%20vale-presente%20ARVORELUZ150%20de%20R%24%20150%2C00%20para%20a%20compra%20da%20minha%20%C3%81rvore%20de%20Natal%21" 
-               class="whatsapp-button" 
-               target="_blank">
-                💬 Resgatar no WhatsApp
-            </a>
-
-            <p style="font-size: 12px; color: #7f8c8d; margin-top: 25px;">
-                Válido até 31/12/2025.
-            </p>
+            <p id="feedback" class="feedback-message"></p>
         </div>
     </div>
 
     <script>
-        const correctWord = "PRESENTE"; // A palavra secreta
-        const scrambledWordElement = document.getElementById('scrambled-word');
-        const puzzleGuessInput = document.getElementById('puzzle-guess');
-        const puzzleFeedback = document.getElementById('puzzle-feedback');
-        const puzzleSection = document.getElementById('puzzle-section');
-        const valeSection = document.getElementById('vale-section');
+        /* ==================== 
+           JAVASCRIPT (Lógica do Jogo)
+           ==================== */
+        
+        // O ARRAY DE DADOS DO JOGO (20 Palavras)
+        // Usamos o campo 'anagrama' como a nova dica principal.
+        const palavrasNatalinas = [
+            // Agora: { anagrama: dica principal, solucao, pista }
+            { anagrama: "A P O N L E I A P", solucao: "PAPAI NOEL", pista: "Pessoa especial que entrega presentes." },
+            { anagrama: "V E O R E R A", solucao: "ARVORE", pista: "Enfeitada com luzes e bolas." },
+            { anagrama: "S L O A B", solucao: "BOLAS", pista: "Enfeite de pendurar na árvore, geralmente redondo." },
+            { anagrama: "L N A A T", solucao: "NATAL", pista: "A data mais importante da celebração." },
+            { anagrama: "T E P S N R E E", solucao: "PRESENTE", pista: "O que se espera receber e dar." },
+            { anagrama: "N G U L A A D R I", solucao: "GUIRLANDA", pista: "Decoração circular para portas." },
+            { anagrama: "O E N R T", solucao: "TRENO", pista: "Meio de transporte do Papai Noel." },
+            { anagrama: "E T A E R S L", solucao: "ESTRELA", pista: "Geralmente no topo da árvore." },
+            { anagrama: "O M I N N E", solucao: "MENINO", pista: "O aniversariante da celebração." },
+            { anagrama: "R P U E", solucao: "PERU", pista: "Prato principal em muitas ceias." },
+            { anagrama: "A R N E", solucao: "RENA", pista: "Animais que puxam o trenó." },
+            { anagrama: "N T O C A", solucao: "CANTO", pista: "Música tradicional da época." },
+            { anagrama: "S V E A L", solucao: "VELAS", pista: "Fonte de luz e calor para a decoração." },
+            { anagrama: "I C E A", solucao: "CEIA", pista: "A refeição especial da noite (24/12)." },
+            { anagrama: "A F E S T", solucao: "FESTA", pista: "Sinônimo de celebração." },
+            { anagrama: "O N J A", solucao: "ANJO", pista: "Figura celestial, frequentemente em presépios." },
+            { anagrama: "N O S I", solucao: "SINO", pista: "Instrumento musical que anuncia a festa." },
+            { anagrama: "P A Z", solucao: "PAZ", pista: "Desejo universal nesta época." },
+            { anagrama: "C O N B O E", solucao: "BONECO", pista: "Feito de neve (ou imitação)." },
+            { anagrama: "F I M I A L A", solucao: "FAMILIA", pista: "Principal foco de união e amor." }
+        ];
 
-        // Função para embaralhar uma string
-        function shuffleWord(word) {
-            let a = word.split("");
-            let n = a.length;
+        let faseAtual = 0;
+        let pontuacao = 0;
+        let tentativasRestantes = 5;
+        const PONTOS_POR_FASE = 100;
 
-            for(let i = n - 1; i > 0; i--) {
-                let j = Math.floor(Math.random() * (i + 1));
-                let tmp = a[i];
-                a[i] = a[j];
-                a[j] = tmp;
-            }
-            return a.join("");
+        // Elementos do DOM
+        const tituloFase = document.getElementById('fase-titulo');
+        const codigoDisplay = document.getElementById('codigo-display');
+        const pontuacaoDisplay = document.getElementById('pontuacao');
+        const tentativasDisplay = document.getElementById('tentativas');
+        const palpiteInput = document.getElementById('palpite-input');
+        const feedbackMensagem = document.getElementById('feedback');
+        const dicaPalavra = document.getElementById('dica-palavra');
+
+        // Função para normalizar strings (remover acentos, espaços e tornar maiúsculas)
+        function normalizarString(str) {
+            return str.trim().toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s/g, '');
         }
 
-        // Inicializa o jogo
-        window.onload = function() {
-            scrambledWordElement.textContent = shuffleWord(correctWord);
-        };
-
-        // Verifica a resposta do quebra-cabeça
-        function checkPuzzle() {
-            const guess = puzzleGuessInput.value.toUpperCase().trim();
-            if (guess === correctWord) {
-                puzzleFeedback.style.color = '#27ae60'; // Verde para sucesso
-                puzzleFeedback.textContent = "🥳 Parabéns! Você acertou!";
+        // Função para iniciar a próxima fase
+        function iniciarProximaFase() {
+            if (faseAtual < palavrasNatalinas.length) {
+                const fase = palavrasNatalinas[faseAtual];
                 
-                // Esconde o puzzle e mostra o vale-presente
-                puzzleSection.style.display = 'none';
-                valeSection.style.display = 'block';
+                tituloFase.textContent = `Fase ${faseAtual + 1} de ${palavrasNatalinas.length} (Vale ${PONTOS_POR_FASE} Pontos)`;
+                // Agora, o elemento "codigo-display" mostra o anagrama
+                codigoDisplay.textContent = fase.anagrama; 
+                dicaPalavra.textContent = `Pista: ${fase.pista}`;
+
+                tentativasRestantes = 5;
+                tentativasDisplay.textContent = tentativasRestantes;
+                
+                palpiteInput.value = '';
+                feedbackMensagem.textContent = '';
+                feedbackMensagem.className = 'feedback-message';
+                palpiteInput.disabled = false;
+                document.querySelector('button').disabled = false;
+                palpiteInput.focus();
+
             } else {
-                puzzleFeedback.style.color = '#e74c3c'; // Vermelho para erro
-                puzzleFeedback.textContent = "Ops! Tente novamente. Dica: é algo que você ganha no Natal!";
+                // Fim do Jogo
+                tituloFase.textContent = "FIM DE JOGO! 🏆";
+                codigoDisplay.textContent = `Parabéns! Você completou todas as ${palavrasNatalinas.length} fases.`;
+                dicaPalavra.textContent = "Sua pontuação final é:";
+                feedbackMensagem.textContent = `${pontuacao} pontos!`;
+                feedbackMensagem.className = 'feedback-message correct';
+                palpiteInput.style.display = 'none';
+                document.querySelector('button').style.display = 'none';
             }
         }
-    </script>
 
+        // Função principal de verificação do palpite
+        function verificarPalpite() {
+            if (faseAtual >= palavrasNatalinas.length || tentativasRestantes <= 0) {
+                return;
+            }
+
+            const palpite = normalizarString(palpiteInput.value);
+            const solucao = normalizarString(palavrasNatalinas[faseAtual].solucao);
+            
+            palpiteInput.value = '';
+
+            if (palpite === solucao) {
+                // ACERTOU!
+                pontuacao += PONTOS_POR_FASE;
+                pontuacaoDisplay.textContent = pontuacao;
+                feedbackMensagem.textContent = `🎉 CORRETO! A palavra era: ${palavrasNatalinas[faseAtual].solucao}. Ganhos ${PONTOS_POR_FASE} pontos!`;
+                feedbackMensagem.className = 'feedback-message correct';
+                
+                palpiteInput.disabled = true;
+                document.querySelector('button').disabled = true;
+                faseAtual++;
+                setTimeout(iniciarProximaFase, 2000); 
+
+            } else {
+                // ERROU!
+                tentativasRestantes--;
+                tentativasDisplay.textContent = tentativasRestantes;
+                feedbackMensagem.textContent = `❌ INCORRETO! Você errou. Tentativas restantes: ${tentativasRestantes}.`;
+                feedbackMensagem.className = 'feedback-message incorrect';
+                palpiteInput.focus();
+
+                if (tentativasRestantes <= 0) {
+                    feedbackMensagem.textContent = `GAME OVER na Fase ${faseAtual + 1}! A palavra correta era: ${palavrasNatalinas[faseAtual].solucao}.`;
+                    palpiteInput.disabled = true;
+                    document.querySelector('button').disabled = true;
+                    faseAtual++;
+                    setTimeout(iniciarProximaFase, 3000);
+                }
+            }
+        }
+
+        // Inicializa o jogo ao carregar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            iniciarProximaFase();
+            
+            // Adiciona evento para a tecla ENTER no input
+            palpiteInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    verificarPalpite();
+                }
+            });
+        });
+
+    </script>
 </body>
 </html>
