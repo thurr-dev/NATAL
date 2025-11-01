@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎄 Vale-Presente Árvore de Natal 🎁</title>
+    <title>🎄 Quebra-Cabeça de Natal & Vale-Presente 🎁</title>
     <style>
         /* Estilos de Natal para a página */
         body {
@@ -66,40 +66,143 @@
         .whatsapp-button:hover {
             background-color: #128c7e;
         }
+
+        /* Estilos do Quebra-Cabeça */
+        #puzzle-section {
+            background-color: #e6ffe6; /* Fundo mais claro para o puzzle */
+            border: 2px dashed #27ae60;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .puzzle-word {
+            font-size: 40px;
+            font-weight: bold;
+            color: #c0392b;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .puzzle-input {
+            padding: 10px;
+            font-size: 20px;
+            border: 2px solid #27ae60;
+            border-radius: 5px;
+            text-align: center;
+            width: 80%;
+            max-width: 250px;
+            margin-bottom: 15px;
+        }
+        .puzzle-button {
+            background-color: #2980b9; /* Azul */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .puzzle-button:hover {
+            background-color: #2c3e50;
+        }
+        .puzzle-feedback {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #e74c3c; /* Vermelho para erro */
+        }
+        #vale-section {
+            display: none; /* Esconde o vale até o puzzle ser resolvido */
+        }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <div class="header">🎄 A Magia do Natal Chegou! 🎁</div>
-        <div class="subheader">Você ganhou um Vale para a sua</div>
-        
-        <h1 style="color: #c0392b; font-size: 32px; margin-top: 5px;">Árvore de Natal!</h1>
-        
-        <div class="value">
-            Valor do Vale: **R$ 150,00**
+        <div class="header">🎉 Antes da Surpresa...</div>
+        <div class="subheader">Resolva o Quebra-Cabeça de Natal!</div>
+
+        <div id="puzzle-section">
+            <p style="font-size: 18px; color: #34495e;">
+                Desembaralhe as letras para descobrir uma palavra mágica do Natal:
+            </p>
+            <div class="puzzle-word" id="scrambled-word"></div>
+            <input type="text" id="puzzle-guess" class="puzzle-input" placeholder="Sua resposta aqui">
+            <button class="puzzle-button" onclick="checkPuzzle()">Verificar</button>
+            <p class="puzzle-feedback" id="puzzle-feedback"></p>
         </div>
 
-        <p style="color: #34495e;">Seu código exclusivo para resgate:</p>
-        <div class="code">
-            ARVORELUZ150
+        <div id="vale-section">
+            <h1 style="color: #c0392b; font-size: 32px; margin-top: 5px;">Árvore de Natal!</h1>
+            
+            <div class="value">
+                Valor do Vale: **R$ 150,00**
+            </div>
+
+            <p style="color: #34495e;">Seu código exclusivo para resgate:</p>
+            <div class="code">
+                ARVORELUZ150
+            </div>
+
+            <p style="margin-top: 30px; color: #34495e; font-weight: bold;">
+                Clique no botão abaixo para usar o seu vale agora mesmo!
+            </p>
+            
+            <a href="https://wa.me/5531997371625?text=Ol%C3%A1%21%20Quero%20usar%20meu%20vale-presente%20ARVORELUZ150%20de%20R%24%20150%2C00%20para%20a%20compra%20da%20minha%20%C3%81rvore%20de%20Natal%21" 
+               class="whatsapp-button" 
+               target="_blank">
+                💬 Resgatar no WhatsApp
+            </a>
+
+            <p style="font-size: 12px; color: #7f8c8d; margin-top: 25px;">
+                Válido até 31/12/2025.
+            </p>
         </div>
-
-        <p style="margin-top: 30px; color: #34495e; font-weight: bold;">
-            Clique no botão abaixo para usar o seu vale agora mesmo!
-        </p>
-        
-        <a href="https://wa.me/5531997371625?text=Ol%C3%A1%21%20Quero%20usar%20meu%20vale-presente%20ARVORELUZ150%20de%20R%24%20150%2C00%20para%20a%20compra%20da%20minha%20%C3%81rvore%20de%20Natal%21" 
-           class="whatsapp-button" 
-           target="_blank">
-            💬 Resgatar no WhatsApp
-        </a>
-
-        <p style="font-size: 12px; color: #7f8c8d; margin-top: 25px;">
-            Válido até 31/12/2025.
-        </p>
-
     </div>
+
+    <script>
+        const correctWord = "PRESENTE"; // A palavra secreta
+        const scrambledWordElement = document.getElementById('scrambled-word');
+        const puzzleGuessInput = document.getElementById('puzzle-guess');
+        const puzzleFeedback = document.getElementById('puzzle-feedback');
+        const puzzleSection = document.getElementById('puzzle-section');
+        const valeSection = document.getElementById('vale-section');
+
+        // Função para embaralhar uma string
+        function shuffleWord(word) {
+            let a = word.split("");
+            let n = a.length;
+
+            for(let i = n - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                let tmp = a[i];
+                a[i] = a[j];
+                a[j] = tmp;
+            }
+            return a.join("");
+        }
+
+        // Inicializa o jogo
+        window.onload = function() {
+            scrambledWordElement.textContent = shuffleWord(correctWord);
+        };
+
+        // Verifica a resposta do quebra-cabeça
+        function checkPuzzle() {
+            const guess = puzzleGuessInput.value.toUpperCase().trim();
+            if (guess === correctWord) {
+                puzzleFeedback.style.color = '#27ae60'; // Verde para sucesso
+                puzzleFeedback.textContent = "🥳 Parabéns! Você acertou!";
+                
+                // Esconde o puzzle e mostra o vale-presente
+                puzzleSection.style.display = 'none';
+                valeSection.style.display = 'block';
+            } else {
+                puzzleFeedback.style.color = '#e74c3c'; // Vermelho para erro
+                puzzleFeedback.textContent = "Ops! Tente novamente. Dica: é algo que você ganha no Natal!";
+            }
+        }
+    </script>
 
 </body>
 </html>
